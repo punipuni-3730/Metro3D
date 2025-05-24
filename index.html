@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東京メトロ 3D路線図</title>
+    <title>東京の地下鉄 3D路線図</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
@@ -94,30 +94,59 @@
             margin-right: 10px;
             border-radius: 2px;
         }
+
+        /* 2D駅名ラベルのスタイル */
+        #station-labels-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* クリックイベントを透過させる */
+            z-index: 99; /* UIより下、Three.jsキャンバスより上 */
+        }
+
+        .station-label {
+            position: absolute;
+            color: white;
+            font-size: 14px; /* テキストサイズを調整 */
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* 読みやすくするための影 */
+            background: rgba(0, 0, 0, 0.4); /* 背景を追加して読みやすく */
+            padding: 2px 5px;
+            border-radius: 5px;
+            transform: translate(-50%, -100%); /* 中央揃えと駅球体の上部に配置 */
+            white-space: nowrap; /* テキストが折り返されないように */
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <div id="ui">
-    <h3>東京メトロ 3D路線図<br><p style="font-size: 15px;">by Salmon</p></h3>
-    <button id="close-ui" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 20px; cursor: pointer;">&times;</button>
-    <div id="controls">
-        <button onclick="toggleAnimation()">⏯️ 回転切替</button>
-        <select onchange="focusLine(this.value)">
-            <option value="">路線を選択</option>
-            <option value="日比谷線">日比谷線</option>
-            <option value="銀座線">銀座線</option>
-            <option value="丸ノ内線">丸ノ内線</option>
-            <option value="東西線">東西線</option>
-            <option value="南北線">南北線</option>
-            <option value="有楽町線">有楽町線</option>
-            <option value="千代田線">千代田線</option>
-            <option value="半蔵門線">半蔵門線</option>
-            <option value="副都心線">副都心線</option>
-        </select>
-    </div>
-    <p><a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-v2_3.html" style="color: white;">国交省データ</a>、東京メトロﾃﾞｰﾀｺﾝﾃﾝﾂを加工して作成</p>
-</div>
+            <h3>東京の地下鉄 3D路線図<br><p style="font-size: 15px;">by Salmon</p></h3>
+            <button id="close-ui" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+            <div id="controls">
+                <button onclick="toggleAnimation()">⏯️ 回転切替</button>
+                <button onclick="toggleStationLabels()">🚏 駅名表示切替</button>
+                <select onchange="focusLine(this.value)">
+                    <option value="">路線を選択</option>
+                    <option value="日比谷線">日比谷線</option>
+                    <option value="銀座線">銀座線</option>
+                    <option value="丸ノ内線">丸ノ内線</option>
+                    <option value="東西線">東西線</option>
+                    <option value="南北線">南北線</option>
+                    <option value="有楽町線">有楽町線</option>
+                    <option value="千代田線">千代田線</option>
+                    <option value="半蔵門線">半蔵門線</option>
+                    <option value="副都心線">副都心線</option>
+                    <option value="浅草線">浅草線</option>
+                    <option value="三田線">三田線</option>
+                    <option value="新宿線">新宿線</option>
+                    <option value="大江戸線">大江戸線</option>
+                </select>
+            </div>
+            <p style="line-height: 1.7;"><a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-v2_3.html" style="color: white;">国交省データ</a>、東京メトロﾃﾞｰﾀｺﾝﾃﾝﾂ、<br><a href="https://creativecommons.org/licenses/by/4.0/deed.ja" style="color: white;">東京都オープンデータ(CC BY 4.0)</a>を加工して作成</p>
+        </div>
         
         <div id="info">
             <div id="station-info">マウスで駅をクリック</div>
@@ -131,17 +160,23 @@
                 <div class="line-item"><div class="line-color" style="background: #00B5AD;"></div><span>千代田線</span></div>
                 <div class="line-item"><div class="line-color" style="background: #8F76D6;"></div><span>半蔵門線</span></div>
                 <div class="line-item"><div class="line-color" style="background: #9C5F2A;"></div><span>副都心線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #E85298;"></div><span>浅草線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #0079C2;"></div><span>三田線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #6CBB5A;"></div><span>新宿線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #B6007A;"></div><span>大江戸線</span></div>
             </div>
         </div>
-    </div>
+        <div id="station-labels-container"></div> </div>
 
     <script>
-        // シーン、カメラ、レンダラーの初期化
+        // Three.js関連の変数
         let scene, camera, renderer, controls;
-        let stations = [];
-        let lines = [];
-        let isAnimating = false;
-        let stationData = [];
+        let stations = []; // Three.jsの駅メッシュ
+        let lines = [];    // Three.jsの路線メッシュ
+        let stationLabels = []; // 2D HTML駅名ラベルの要素と関連データを格納
+        let isAnimating = false; // カメラの自動回転フラグ
+        let stationData = []; // 読み込んだJSONデータ
+        let consolidatedStations = []; // 統合された駅データ
 
         // 路線カラーマップ
         const lineColors = {
@@ -154,29 +189,60 @@
             '8号線有楽町線': 0xC1A470,
             '9号線千代田線': 0x00BB85,
             '11号線半蔵門線': 0x8F76D6,
-            '13号線副都心線': 0x9C5F2A
+            '13号線副都心線': 0x9C5F2A,
+            '1号線浅草線': 0xE85298,
+            '6号線三田線': 0x0079C2,
+            '10号線新宿線': 0x6CBB5A,
+            '12号線大江戸線': 0xB6007A
         };
 
-        // 路線ごとの駅順序
+        // 路線ごとの駅順序 (路線図の描画順序に影響)
         const lineOrders = {
             '2号線日比谷線': ['中目黒', '恵比寿', '広尾', '六本木', '神谷町', '虎ノ門ヒルズ', '霞ケ関', '日比谷', '銀座', '東銀座', '築地', '八丁堀', '茅場町', '人形町', '小伝馬町', '秋葉原', '仲御徒町', '上野', '入谷', '三ノ輪', '南千住', '北千住'],
             '3号線銀座線': ['渋谷', '表参道', '外苑前', '青山一丁目', '赤坂見附', '溜池山王', '虎ノ門', '新橋', '銀座', '京橋', '日本橋', '三越前', '神田', '末広町', '上野広小路', '上野', '稲荷町', '田原町', '浅草'],
-            '4号線丸ノ内線': ['荻窪', '南阿佐ヶ谷', '新高円寺', '東高円寺', '新中野', '中野坂上', '西新宿', '新宿', '新宿三丁目', '新宿御苑前', '四谷三丁目', '四ツ谷', '赤坂見附', '国会議事堂前', '霞ケ関', '銀座', '京橋', '大手町', '淡路町', '御茶ノ水', '本郷三丁目', '後楽園', '茗荷谷', '新大塚', '池袋'],
+            '4号線丸ノ内線': ['荻窪', '南阿佐ヶ谷', '新高円寺', '東高円寺', '新中野', '中野坂上', '西新宿', '新宿', '新宿三丁目', '新宿御苑前', '四谷三丁目', '四ツ谷', '赤坂見附', '国会議事堂前', '霞ケ関', '銀座', '東京', '京橋', '大手町', '淡路町', '御茶ノ水', '本郷三丁目', '後楽園', '茗荷谷', '新大塚', '池袋'],
             '4号線丸ノ内線分岐線': ['中野坂上', '中野新橋', '中野富士見町', '方南町'],
             '5号線東西線': ['中野', '落合', '高田馬場', '早稲田', '神楽坂', '飯田橋', '九段下', '竹橋', '大手町', '日本橋', '茅場町', '門前仲町', '木場', '東陽町', '南砂町', '西葛西', '葛西', '浦安', '南行徳', '行徳', '妙典', '原木中山', '西船橋'],
-            '7号線南北線': ['目黒', '白金台', '白金高輪', '麻布十番', '六本木一丁目', '溜池山王', '永田町', '四ツ谷', '市ケ谷', '飯田橋', '後楽園', '東大前', '本駒込', '駒込', '西ヶ原', '王子', '王子神谷', '志茂', '赤羽岩淵'],
+            '7号線南北線': ['目黒', '白金台', '白金高輪', '麻布十番', '六本木一丁目', '溜池山王', '永田町', '四ツ谷', '市ケ谷', '飯田橋', '後楽園', '東大前', '本駒込', '駒込', '西ヶ原',
+            '王子', '王子神谷', '志茂', '赤羽岩淵'],
             '8号線有楽町線': ['和光市', '地下鉄成増', '地下鉄赤塚', '平和台', '氷川台', '小竹向原', '千川', '要町', '池袋', '東池袋', '護国寺', '江戸川橋', '飯田橋', '市ケ谷', '麹町', '永田町', '桜田門', '有楽町', '銀座一丁目', '新富町', '月島', '豊洲', '辰巳', '新木場'],
             '9号線千代田線': ['代々木上原', '代々木公園', '明治神宮前', '表参道', '乃木坂', '赤坂', '国会議事堂前', '霞ケ関', '日比谷', '二重橋前', '大手町', '新御茶ノ水', '湯島', '根津', '千駄木', '西日暮里', '町屋', '北千住', '綾瀬', '北綾瀬'],
             '11号線半蔵門線': ['渋谷', '表参道', '青山一丁目', '永田町', '半蔵門', '九段下', '神保町', '大手町', '三越前', '水天宮前', '清澄白河', '住吉', '錦糸町', '押上'],
-            '13号線副都心線': ['和光市', '地下鉄成増', '地下鉄赤塚', '平和台', '氷川台', '小竹向原', '千川', '要町', '池袋', '雑司が谷', '西早稲田', '東新宿', '新宿三丁目', '北参道', '明治神宮前', '渋谷']
+            '13号線副都心線': ['和光市', '地下鉄成増', '地下鉄赤塚', '平和台', '氷川台', '小竹向原', '千川', '要町', '池袋', '雑司が谷', '西早稲田', '東新宿', '新宿三丁目', '北参道', '明治神宮前', '渋谷'],
+            '1号線浅草線': ['西馬込', '馬込', '中延', '戸越', '五反田', '高輪台', '泉岳寺', '三田', '大門', '新橋', '東銀座', '宝町', '日本橋', '人形町', '東日本橋', '浅草橋', '蔵前', '浅草', '本所吾妻橋', '押上'],
+            '6号線三田線': ['目黒', '白金台', '白金高輪', '三田', '芝公園', '御成門', '内幸町', '日比谷', '大手町', '神保町', '水道橋', '春日', '白山', '千石', '巣鴨', '西巣鴨', '新板橋', '板橋区役所前', '板橋本町', '本蓮沼', '志村坂上', '志村三丁目', '蓮根', '西台', '高島平', '新高島平', '西高島平'],
+            '10号線新宿線': ['新宿', '新宿三丁目', '曙橋', '市ヶ谷', '九段下', '神保町', '小川町', '岩本町', '馬喰横山', '浜町', '森下', '菊川', '住吉', '西大島', '大島', '東大島', '船堀', '一之江', '瑞江', '篠崎', '本八幡'],
+            '12号線大江戸線': ['新宿西口', '東新宿', '若松河田', '牛込柳町', '牛込神楽坂', '飯田橋', '春日', '本郷三丁目', '上野御徒町', '新御徒町', '蔵前', '両国', '森下', '清澄白河', '門前仲町', '月島', '勝どき', '築地市場', '汐留', '大門', '赤羽橋', '麻布十番', '六本木', '青山一丁目', '国立競技場', '代々木', '新宿', '都庁前', '西新宿五丁目', '中野坂上', '東中野', '中井', '落合南長崎', '新江古田', '練馬', '豊島園', '練馬春日町', '光が丘']
         };
 
+        // 主要駅リスト (2Dテキストを表示する駅)
+        const mainStations = [
+            '中目黒', '北千住', // 日比谷線
+            '渋谷', '浅草', // 銀座線
+            '荻窪', '池袋', '方南町', // 丸ノ内線
+            '中野', '西船橋', // 東西線
+            '目黒', '赤羽岩淵', // 南北線
+            '和光市', '新木場', // 有楽町線
+            '代々木上原', '北綾瀬', // 千代田線
+            '渋谷', '押上', // 半蔵門線
+            '和光市', '渋谷', // 副都心線
+            '西馬込', '押上', // 浅草線
+            '目黒', '西高島平', // 三田線
+            '新宿', '本八幡', // 新宿線
+            '光が丘', '都庁前', // 大江戸線
+            '東京', '大手町', '銀座', '霞ケ関', '永田町', '飯田橋', '上野', '日本橋' // 主要乗換駅
+        ];
+
+        // JSONデータを非同期で読み込む関数
         async function loadJSON() {
             try {
-                const response = await fetch('tokyometro.json');
+                const response = await fetch('metro.json');
                 if (!response.ok) throw new Error('JSONファイルの読み込みに失敗しました');
                 stationData = await response.json();
                 console.log('JSON読み込み完了:', stationData);
+
+                // 駅の座標を統合
+                consolidateStations();
 
                 // 駅とラインの作成
                 createStations();
@@ -187,60 +253,77 @@
             }
         }
 
+        // 複数路線が乗り入れる駅の座標を統合する関数
+        function consolidateStations() {
+            const stationMap = {};
+
+            // 同一駅のエントリをグループ化
+            stationData.forEach(station => {
+                const name = station.station;
+                if (!stationMap[name]) {
+                    stationMap[name] = {
+                        coordinates: [],
+                        lines: []
+                    };
+                }
+                stationMap[name].coordinates.push(station.coordinates);
+                stationMap[name].lines.push(...station.lines);
+            });
+
+            // 平均座標を計算し、統合された駅データを作成
+            consolidatedStations = Object.keys(stationMap).map(name => {
+                const coords = stationMap[name].coordinates;
+                const avgLon = coords.reduce((sum, c) => sum + c[0], 0) / coords.length;
+                const avgLat = coords.reduce((sum, c) => sum + c[1], 0) / coords.length;
+                return {
+                    station: name,
+                    coordinates: [avgLon, avgLat],
+                    lines: stationMap[name].lines
+                };
+            });
+
+            console.log('統合された駅データ:', consolidatedStations);
+        }
+
+        // Three.jsシーンの初期化
         function init() {
-    // シーンの作成
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000011);
+            // シーンの作成
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000011);
 
-    // カメラの作成
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(40 ,200,-20); // ログから調整した初期視点
+            // カメラの作成
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(40, 200, -20); // 調整した初期視点
 
-    // レンダラーの作成
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    document.getElementById('container').appendChild(renderer.domElement);
+            // レンダラーの作成
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('container').appendChild(renderer.domElement);
 
-    // OrbitControlsの設定
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.target.set(-39,8,-26); // モデル中心を注視
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.minDistance = 10;
-    controls.maxDistance = 200;
+            // OrbitControlsの設定
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target.set(-39, 8, -26); // モデル中心を注視
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 10;
+            controls.maxDistance = 200;
 
-    // 視点変更ログ
-    controls.addEventListener('change', () => {
-        console.log('Camera Position:', {
-            x: camera.position.x.toFixed(2),
-            y: camera.position.y.toFixed(2),
-            z: camera.position.z.toFixed(2)
-        });
-        console.log('Controls Target:', {
-            x: controls.target.x.toFixed(2),
-            y: controls.target.y.toFixed(2),
-            z: controls.target.z.toFixed(2)
-        });
-    });
+            // ライティング
+            setupLights();
 
-    // ライティング
-    setupLights();
+            // JSON読み込み
+            loadJSON();
 
-    // 地面の作成
-    // createGround();
+            // クリックイベント
+            renderer.domElement.addEventListener('pointerup', onStationClick);
 
-    // JSON読み込み
-    loadJSON();
+            // アニメーションループを開始
+            animate();
+        }    
 
-    // クリックイベント
-    // renderer.domElement.addEventListener('click', onStationClick);
-    renderer.domElement.addEventListener('pointerup', onStationClick);
-
-    // アニメーションループ
-    animate();
-}    
+        // シーンにライトを設定する関数
         function setupLights() {
             const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
             scene.add(ambientLight);
@@ -257,6 +340,7 @@
             scene.add(pointLight);
         }
 
+        // 緯度経度をThree.jsのXY座標に変換する関数
         function latLonToXY(lon, lat) {
             const centerLon = 139.7;
             const centerLat = 35.68;
@@ -266,129 +350,171 @@
             return { x, z };
         }
 
-function createStations() {
-    const stationGeometry = new THREE.SphereGeometry(0.8, 16, 16);
-    const stationMap = {};
-    // 境界ボックス計算用
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+        // Three.jsの駅メッシュと2Dラベルを作成する関数
+        function createStations() {
+            const stationGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+            const stationMap = {};
+            // 境界ボックス計算用
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
 
-    // 1. 中心計算のために全座標をスキャン
-    stationData.forEach(station => {
-        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
-        const primaryLine = station.lines[0];
-        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
-        minX = Math.min(minX, pos.x);
-        maxX = Math.max(maxX, pos.x);
-        minY = Math.min(minY, depth);
-        maxY = Math.max(maxY, depth);
-        minZ = Math.min(minZ, pos.z);
-        maxZ = Math.max(maxZ, pos.z);
-    });
+            // 1. 中心計算のために全座標をスキャン
+            stationData.forEach(station => {
+                const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+                station.lines.forEach(line => {
+                    const depth = line.depth !== null ? line.depth * 1.5 : 0; // 深さの倍率を1.5に設定
+                    minX = Math.min(minX, pos.x);
+                    maxX = Math.max(maxX, pos.x);
+                    minY = Math.min(minY, depth);
+                    maxY = Math.max(maxY, depth);
+                    minZ = Math.min(minZ, pos.z);
+                    maxZ = Math.max(maxZ, pos.z);
+                });
+            });
 
-    // 中心座標
-    const centerX = (minX + maxX) / 2;
-    const centerY = (minY + maxY) / 2;
-    const centerZ = (minZ + maxZ) / 2;
+            // 中心座標
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+            const centerZ = (minZ + maxZ) / 2;
 
-    // 2. 中心を(0, 0, 0)にオフセット
-    stationData.forEach(station => {
-        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
-        const primaryLine = station.lines[0];
-        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
-        const color = lineColors[primaryLine.name] || 0xffffff;
+            const labelsContainer = document.getElementById('station-labels-container');
 
-        const material = new THREE.MeshPhongMaterial({
-            color: color,
-            emissive: new THREE.Color(color).multiplyScalar(0.2)
-        });
+            // 2. 各路線ごとに駅を作成
+            consolidatedStations.forEach(station => { // 統合された駅データを使用
+                const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+                const numLines = station.lines.length;
 
-        const stationMesh = new THREE.Mesh(stationGeometry, material);
-        stationMesh.position.set(pos.x - 20, depth - centerY, -pos.z - centerZ); // 中心をオフセット
-        stationMesh.castShadow = true;
-        stationMesh.receiveShadow = true;
+                // 複数路線の場合、駅の球体を少しオフセットして描画
+                station.lines.forEach((line, index) => {
+                    const depth = line.depth !== null ? line.depth * 1.5 : 0; // 深さの倍率を1.5に設定
+                    const color = lineColors[line.name] || 0xffffff;
 
-        stationMesh.userData = {
-            name: station.station,
-            lines: station.lines,
-            coordinates: station.coordinates
-        };
+                    const material = new THREE.MeshPhongMaterial({
+                        color: color,
+                        emissive: new THREE.Color(color).multiplyScalar(0.2)
+                    });
 
-        scene.add(stationMesh);
-        stations.push(stationMesh);
-        stationMap[station.station] = stationMesh;
-    });
+                    const stationMesh = new THREE.Mesh(stationGeometry, material);
+                    
+                    let offsetX = 0, offsetZ = 0;
+                    if (numLines > 1) {
+                        const angle = (index / numLines) * Math.PI * 2; // 円形配置
+                        const radius = 1.2; // オフセット半径
+                        offsetX = Math.cos(angle) * radius;
+                        offsetZ = Math.sin(angle) * radius;
+                    }
+                    // 座標調整: モデルの中心を原点に近づける
+                    stationMesh.position.set(pos.x - centerX + offsetX, depth - centerY, -pos.z - centerZ + offsetZ);
+                    stationMesh.castShadow = true;
+                    stationMesh.receiveShadow = true;
 
-    // 中心座標をログ
-    console.log('Model Center:', { x: centerX.toFixed(2), y: centerY.toFixed(2), z: centerZ.toFixed(2) });
-}
-function createLines() {
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+                    stationMesh.userData = {
+                        name: station.station,
+                        lines: station.lines,
+                        coordinates: station.coordinates
+                    };
 
-    stationData.forEach(station => {
-        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
-        const primaryLine = station.lines[0];
-        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
-        minX = Math.min(minX, pos.x);
-        maxX = Math.max(maxX, pos.x);
-        minY = Math.min(minY, depth);
-        maxY = Math.max(maxY, depth);
-        minZ = Math.min(minZ, pos.z);
-        maxZ = Math.max(maxZ, pos.z);
-    });
+                    scene.add(stationMesh);
+                    stations.push(stationMesh);
+                });
 
-    const centerX = (minX + maxX) / 2;
-    const centerY = (minY + maxY) / 2;
-    const centerZ = (minZ + maxZ) / 2;
+                // 主要駅の場合、2D HTMLテキストラベルを追加
+                if (mainStations.includes(station.station)) {
+                    const labelDiv = document.createElement('div');
+                    labelDiv.className = 'station-label';
+                    labelDiv.textContent = station.station;
+                    labelsContainer.appendChild(labelDiv);
 
-    Object.keys(lineOrders).forEach(lineName => {
-        const stationNames = lineOrders[lineName];
-        const points = [];
-
-        stationNames.forEach(stationName => {
-            const station = stationData.find(s => s.station === stationName);
-            if (station) {
-                const line = station.lines.find(l => l.name === lineName);
-                if (line) {
-                    const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
-                    const depth = line.depth !== null ? line.depth * 0.5 : 0;
-                    points.push(new THREE.Vector3(pos.x - 20, depth - centerY, -pos.z - centerZ)); // 中心をオフセット
+                    // ラベルのThree.jsメッシュとHTML要素を関連付けて保存
+                    stationLabels.push({
+                        mesh: stations.find(m => m.userData.name === station.station), // 最初のメッシュを使用
+                        element: labelDiv
+                    });
                 }
-            }
-        });
+            });
 
-        if (points.length < 2) return;
+            // 中心座標をログ (デバッグ用)
+            console.log('Model Center:', { x: centerX.toFixed(2), y: centerY.toFixed(2), z: centerZ.toFixed(2) });
+        }
 
-        const path = new THREE.CatmullRomCurve3(points);
-        const geometry = new THREE.TubeGeometry(path, 64, 0.5, 8, false);
-        const material = new THREE.MeshPhongMaterial({
-            color: lineColors[lineName] || 0xffffff,
-            emissive: new THREE.Color(lineColors[lineName] || 0xffffff).multiplyScalar(0.2)
-        });
+        // Three.jsの路線チューブを作成する関数
+        function createLines() {
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
 
-        const tube = new THREE.Mesh(geometry, material);
-        tube.castShadow = true;
-        tube.receiveShadow = true;
-        tube.userData = { lineName };
-        scene.add(tube);
-        lines.push(tube);
-    });
-}
+            // 境界ボックス計算（統合された座標を使用）
+            consolidatedStations.forEach(station => {
+                const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+                station.lines.forEach(line => {
+                    const depth = line.depth !== null ? line.depth * 1.5 : 0; // 深さの倍率を1.5に設定
+                    minX = Math.min(minX, pos.x);
+                    maxX = Math.max(maxX, pos.x);
+                    minY = Math.min(minY, depth);
+                    maxY = Math.max(maxY, depth);
+                    minZ = Math.min(minZ, pos.z);
+                    maxZ = Math.max(maxZ, pos.z);
+                });
+            });
 
-function createGround() {
-    const groundGeometry = new THREE.PlaneGeometry(200, 200);
-    const groundMaterial = new THREE.MeshLambertMaterial({
-        color: 0x1a1a2e,
-        transparent: true,
-        opacity: 0.8
-    });
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+            const centerZ = (minZ + maxZ) / 2;
 
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -20; // 地面を下（モデル中心に合わせて調整）
-    ground.receiveShadow = true;
-    scene.add(ground);
-}
+            Object.keys(lineOrders).forEach(lineName => {
+                const stationNames = lineOrders[lineName];
+                const points = [];
 
+                // 統合された座標を使用してポイントを収集
+                stationNames.forEach(stationName => {
+                    const station = consolidatedStations.find(s => s.station === stationName);
+                    if (station) {
+                        const line = station.lines.find(l => l.name === lineName);
+                        if (line) {
+                            const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+                            const depth = line.depth !== null ? line.depth * 1.5 : 0;
+                            // 座標調整: モデルの中心を原点に近づける
+                            points.push(new THREE.Vector3(pos.x - centerX, depth - centerY, -pos.z - centerZ));
+                        }
+                    }
+                });
+
+                if (points.length < 2) return; // 少なくとも2点必要
+
+                // 各駅ペア間に直線チューブ（シリンダー）を作成
+                for (let i = 0; i < points.length - 1; i++) {
+                    const start = points[i];
+                    const end = points[i + 1];
+
+                    // シリンダーの長さと方向を計算
+                    const direction = new THREE.Vector3().subVectors(end, start);
+                    const length = direction.length();
+                    const midpoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+
+                    // シリンダーのジオメトリとマテリアル
+                    const cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, length, 8);
+                    const cylinderMaterial = new THREE.MeshPhongMaterial({
+                        color: lineColors[lineName] || 0xffffff,
+                        emissive: new THREE.Color(lineColors[lineName] || 0xffffff).multiplyScalar(0.2)
+                    });
+
+                    const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+
+                    // シリンダーの位置と回転を設定
+                    cylinder.position.copy(midpoint);
+                    cylinder.quaternion.setFromUnitVectors(
+                        new THREE.Vector3(0, 1, 0), // デフォルトのシリンダー軸（Y軸）
+                        direction.clone().normalize() // 開始点から終点への方向
+                    );
+
+                    cylinder.castShadow = true;
+                    cylinder.receiveShadow = true;
+                    cylinder.userData = { lineName };
+
+                    scene.add(cylinder);
+                    lines.push(cylinder);
+                }
+            });
+        }
+
+        // 駅クリックイベントのハンドラ
         function onStationClick(event) {
             const mouse = new THREE.Vector2();
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -412,74 +538,143 @@ function createGround() {
             }
         }
 
- function animate() {
-    requestAnimationFrame(animate);
+        // ワールド座標をスクリーン座標に変換するヘルパー関数
+        const tempV = new THREE.Vector3(); // 毎回新しいVector3を作成するのを避けるため
+        function worldToScreen(vector3, camera, renderer) {
+            tempV.copy(vector3);
+            tempV.project(camera);
 
-    if (isAnimating) {
-        const time = Date.now() * 0.0005;
-        camera.position.x = Math.cos(time) * 80;
-        camera.position.z = Math.sin(time) * 80;
-        camera.lookAt(0, 0, 0); // モデル中心を注視
-    }
+            const x = (tempV.x * 0.5 + 0.5) * renderer.domElement.clientWidth;
+            const y = (-tempV.y * 0.5 + 0.5) * renderer.domElement.clientHeight;
 
-    stations.forEach((station, index) => {
-        const time = Date.now() * 0.003 + index * 0.1;
-        const intensity = 0.2 + Math.sin(time) * 0.1;
-        station.material.emissiveIntensity = intensity;
-    });
+            return { x, y };
+        }
 
-    controls.update();
-    renderer.render(scene, camera);
-}
+        // アニメーションループ
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isAnimating) {
+                const time = Date.now() * 0.0005;
+                camera.position.x = Math.cos(time) * 80;
+                camera.position.z = Math.sin(time) * 80;
+                camera.lookAt(controls.target); // controls.targetを見るように変更
+            }
+
+            // 駅の点滅エフェクト
+            stations.forEach((station, index) => {
+                const time = Date.now() * 0.003 + index * 0.1;
+                const intensity = 0.2 + Math.sin(time) * 0.1;
+                station.material.emissiveIntensity = intensity;
+            });
+
+            // 2D駅名ラベルの位置を更新
+            stationLabels.forEach(label => {
+                // 駅のメッシュのワールド座標を取得
+                label.mesh.updateWorldMatrix(true, false);
+                const screenPosition = worldToScreen(label.mesh.position, camera, renderer);
+                
+                label.element.style.left = `${screenPosition.x}px`;
+                label.element.style.top = `${screenPosition.y}px`;
+
+                // カメラに対する向きを考慮して、ラベルの表示/非表示を調整（オプション）
+                // 駅がカメラの背後にある場合は非表示にする
+                tempV.copy(label.mesh.position);
+                tempV.project(camera);
+                label.element.style.display = (tempV.z > 1 || tempV.z < -1) ? 'none' : (label.element.dataset.visible === 'true' ? 'block' : 'none');
+            });
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // ビューをリセットする関数 (現在未使用)
         function resetView() {
             camera.position.set(40, 200, -20);
             controls.target.set(0, 0, 0);
             controls.update();
         }
 
+        // カメラの自動回転を切り替える関数
         function toggleAnimation() {
             isAnimating = !isAnimating;
         }
 
-        function focusLine(selectedLine) {
-            if (!selectedLine) return;
+        // 主要駅のテキストラベル表示を切り替える関数
+        function toggleStationLabels() {
+            const labelsContainer = document.getElementById('station-labels-container');
+            const isVisible = labelsContainer.style.display !== 'none';
+            labelsContainer.style.display = isVisible ? 'none' : 'block';
 
+            // 各ラベルの表示状態をデータ属性に保存
+            stationLabels.forEach(label => {
+                label.element.dataset.visible = (!isVisible).toString();
+            });
+        }
+
+        // 路線にフォーカスする関数
+        function focusLine(selectedLine) {
+            if (!selectedLine) {
+                // 全ての駅とラインを元の状態に戻す
+                stations.forEach(station => {
+                    station.material.opacity = 1.0;
+                    station.material.transparent = false;
+                });
+                lines.forEach(line => {
+                    line.material.opacity = 1.0;
+                    line.material.transparent = false;
+                });
+                return;
+            }
+
+            // 全ての駅とラインを半透明にする
             stations.forEach(station => {
                 station.material.opacity = 0.3;
                 station.material.transparent = true;
             });
+            lines.forEach(line => {
+                line.material.opacity = 0.3;
+                line.material.transparent = true;
+            });
 
+            // 選択された路線の駅とラインを不透明にする
             stations.forEach(station => {
                 if (station.userData.lines.some(line => line.name.includes(selectedLine))) {
                     station.material.opacity = 1.0;
                     station.material.transparent = false;
                 }
             });
+            lines.forEach(line => {
+                if (line.userData.lineName.includes(selectedLine)) {
+                    line.material.opacity = 1.0;
+                    line.material.transparent = false;
+                }
+            });
 
-            setTimeout(() => {
-                stations.forEach(station => {
-                    station.material.opacity = 1.0;
-                    station.material.transparent = false;
-                });
-            }, 3000);
+            // テキストラベルは影響を受けないようにする
+            // 必要であれば、ここで特定の路線のラベルのみ表示するロジックを追加できます
         }
 
+        // ウィンドウのリサイズイベントハンドラ
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+        // 初期化処理を開始
         init();
+
+        // UIを閉じるボタンのイベントリスナー
         const closeUiButton = document.getElementById('close-ui');
-    if (closeUiButton) {
-        closeUiButton.addEventListener('click', () => {
-            const uiElement = document.getElementById('ui');
-            if (uiElement) {
-                uiElement.style.display = 'none'; // または 'visibility: hidden;'
-            }
-        });
-    }
+        if (closeUiButton) {
+            closeUiButton.addEventListener('click', () => {
+                const uiElement = document.getElementById('ui');
+                if (uiElement) {
+                    uiElement.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
