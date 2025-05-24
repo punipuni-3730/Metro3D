@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京メトロ 3D路線図</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000011;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            color: white;
+            background: rgba(0, 0, 50, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            line-height: 0.7;
+        }
+        
+        #controls {
+            margin-top: 10px;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        
+        #info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0, 0, 50, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
+        }
+        
+        .line-legend {
+            margin-top: 10px;
+        }
+        
+        .line-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .line-color {
+            width: 20px;
+            height: 3px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="ui">
+    <h3>東京メトロ 3D路線図<br><p style="font-size: 15px;">by Salmon</p></h3>
+    <button id="close-ui" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 20px; cursor: pointer;">&times;</button>
+    <div id="controls">
+        <button onclick="toggleAnimation()">⏯️ 回転切替</button>
+        <select onchange="focusLine(this.value)">
+            <option value="">路線を選択</option>
+            <option value="日比谷線">日比谷線</option>
+            <option value="銀座線">銀座線</option>
+            <option value="丸ノ内線">丸ノ内線</option>
+            <option value="東西線">東西線</option>
+            <option value="南北線">南北線</option>
+            <option value="有楽町線">有楽町線</option>
+            <option value="千代田線">千代田線</option>
+            <option value="半蔵門線">半蔵門線</option>
+            <option value="副都心線">副都心線</option>
+        </select>
+    </div>
+    <p><a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-v2_3.html" style="color: white;">国交省データ</a>、東京メトロﾃﾞｰﾀｺﾝﾃﾝﾂを加工して作成</p>
+</div>
+        
+        <div id="info">
+            <div id="station-info">マウスで駅をクリック</div>
+            <div class="line-legend">
+                <div class="line-item"><div class="line-color" style="background: #B5B5AC;"></div><span>日比谷線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #FF9500;"></div><span>銀座線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #F62E36;"></div><span>丸ノ内線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #009BBF;"></div><span>東西線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #00AC9A;"></div><span>南北線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #C1A470;"></div><span>有楽町線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #00B5AD;"></div><span>千代田線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #8F76D6;"></div><span>半蔵門線</span></div>
+                <div class="line-item"><div class="line-color" style="background: #9C5F2A;"></div><span>副都心線</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // シーン、カメラ、レンダラーの初期化
+        let scene, camera, renderer, controls;
+        let stations = [];
+        let lines = [];
+        let isAnimating = false;
+        let stationData = [];
+
+        // 路線カラーマップ
+        const lineColors = {
+            '2号線日比谷線': 0xB5B5AC,
+            '3号線銀座線': 0xFF9500,
+            '4号線丸ノ内線': 0xF62E36,
+            '4号線丸ノ内線分岐線': 0xF62E36,
+            '5号線東西線': 0x009BBF,
+            '7号線南北線': 0x00AC9A,
+            '8号線有楽町線': 0xC1A470,
+            '9号線千代田線': 0x00BB85,
+            '11号線半蔵門線': 0x8F76D6,
+            '13号線副都心線': 0x9C5F2A
+        };
+
+        // 路線ごとの駅順序
+        const lineOrders = {
+            '2号線日比谷線': ['中目黒', '恵比寿', '広尾', '六本木', '神谷町', '虎ノ門ヒルズ', '霞ケ関', '日比谷', '銀座', '東銀座', '築地', '八丁堀', '茅場町', '人形町', '小伝馬町', '秋葉原', '仲御徒町', '上野', '入谷', '三ノ輪', '南千住', '北千住'],
+            '3号線銀座線': ['渋谷', '表参道', '外苑前', '青山一丁目', '赤坂見附', '溜池山王', '虎ノ門', '新橋', '銀座', '京橋', '日本橋', '三越前', '神田', '末広町', '上野広小路', '上野', '稲荷町', '田原町', '浅草'],
+            '4号線丸ノ内線': ['荻窪', '南阿佐ヶ谷', '新高円寺', '東高円寺', '新中野', '中野坂上', '西新宿', '新宿', '新宿三丁目', '新宿御苑前', '四谷三丁目', '四ツ谷', '赤坂見附', '国会議事堂前', '霞ケ関', '銀座', '京橋', '大手町', '淡路町', '御茶ノ水', '本郷三丁目', '後楽園', '茗荷谷', '新大塚', '池袋'],
+            '4号線丸ノ内線分岐線': ['中野坂上', '中野新橋', '中野富士見町', '方南町'],
+            '5号線東西線': ['中野', '落合', '高田馬場', '早稲田', '神楽坂', '飯田橋', '九段下', '竹橋', '大手町', '日本橋', '茅場町', '門前仲町', '木場', '東陽町', '南砂町', '西葛西', '葛西', '浦安', '南行徳', '行徳', '妙典', '原木中山', '西船橋'],
+            '7号線南北線': ['目黒', '白金台', '白金高輪', '麻布十番', '六本木一丁目', '溜池山王', '永田町', '四ツ谷', '市ケ谷', '飯田橋', '後楽園', '東大前', '本駒込', '駒込', '西ヶ原', '王子', '王子神谷', '志茂', '赤羽岩淵'],
+            '8号線有楽町線': ['和光市', '地下鉄成増', '地下鉄赤塚', '平和台', '氷川台', '小竹向原', '千川', '要町', '池袋', '東池袋', '護国寺', '江戸川橋', '飯田橋', '市ケ谷', '麹町', '永田町', '桜田門', '有楽町', '銀座一丁目', '新富町', '月島', '豊洲', '辰巳', '新木場'],
+            '9号線千代田線': ['代々木上原', '代々木公園', '明治神宮前', '表参道', '乃木坂', '赤坂', '国会議事堂前', '霞ケ関', '日比谷', '二重橋前', '大手町', '新御茶ノ水', '湯島', '根津', '千駄木', '西日暮里', '町屋', '北千住', '綾瀬', '北綾瀬'],
+            '11号線半蔵門線': ['渋谷', '表参道', '青山一丁目', '永田町', '半蔵門', '九段下', '神保町', '大手町', '三越前', '水天宮前', '清澄白河', '住吉', '錦糸町', '押上'],
+            '13号線副都心線': ['和光市', '地下鉄成増', '地下鉄赤塚', '平和台', '氷川台', '小竹向原', '千川', '要町', '池袋', '雑司が谷', '西早稲田', '東新宿', '新宿三丁目', '北参道', '明治神宮前', '渋谷']
+        };
+
+        async function loadJSON() {
+            try {
+                const response = await fetch('tokyometro.json');
+                if (!response.ok) throw new Error('JSONファイルの読み込みに失敗しました');
+                stationData = await response.json();
+                console.log('JSON読み込み完了:', stationData);
+
+                // 駅とラインの作成
+                createStations();
+                createLines();
+            } catch (error) {
+                console.error('エラー:', error);
+                document.getElementById('station-info').innerHTML = 'データ読み込みエラー';
+            }
+        }
+
+        function init() {
+    // シーンの作成
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000011);
+
+    // カメラの作成
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(40 ,200,-20); // ログから調整した初期視点
+
+    // レンダラーの作成
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.getElementById('container').appendChild(renderer.domElement);
+
+    // OrbitControlsの設定
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(-39,8,-26); // モデル中心を注視
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 10;
+    controls.maxDistance = 200;
+
+    // 視点変更ログ
+    controls.addEventListener('change', () => {
+        console.log('Camera Position:', {
+            x: camera.position.x.toFixed(2),
+            y: camera.position.y.toFixed(2),
+            z: camera.position.z.toFixed(2)
+        });
+        console.log('Controls Target:', {
+            x: controls.target.x.toFixed(2),
+            y: controls.target.y.toFixed(2),
+            z: controls.target.z.toFixed(2)
+        });
+    });
+
+    // ライティング
+    setupLights();
+
+    // 地面の作成
+    // createGround();
+
+    // JSON読み込み
+    loadJSON();
+
+    // クリックイベント
+    // renderer.domElement.addEventListener('click', onStationClick);
+    renderer.domElement.addEventListener('pointerup', onStationClick);
+
+    // アニメーションループ
+    animate();
+}    
+        function setupLights() {
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 50, 50);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+
+            const pointLight = new THREE.PointLight(0x4ECDC4, 0.5, 100);
+            pointLight.position.set(0, -20, 0);
+            scene.add(pointLight);
+        }
+
+        function latLonToXY(lon, lat) {
+            const centerLon = 139.7;
+            const centerLat = 35.68;
+            const scale = 1000;
+            const x = (lon - centerLon) * scale; // 東が右
+            const z = (lat - centerLat) * scale; // 北が上
+            return { x, z };
+        }
+
+function createStations() {
+    const stationGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+    const stationMap = {};
+    // 境界ボックス計算用
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+
+    // 1. 中心計算のために全座標をスキャン
+    stationData.forEach(station => {
+        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+        const primaryLine = station.lines[0];
+        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
+        minX = Math.min(minX, pos.x);
+        maxX = Math.max(maxX, pos.x);
+        minY = Math.min(minY, depth);
+        maxY = Math.max(maxY, depth);
+        minZ = Math.min(minZ, pos.z);
+        maxZ = Math.max(maxZ, pos.z);
+    });
+
+    // 中心座標
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const centerZ = (minZ + maxZ) / 2;
+
+    // 2. 中心を(0, 0, 0)にオフセット
+    stationData.forEach(station => {
+        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+        const primaryLine = station.lines[0];
+        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
+        const color = lineColors[primaryLine.name] || 0xffffff;
+
+        const material = new THREE.MeshPhongMaterial({
+            color: color,
+            emissive: new THREE.Color(color).multiplyScalar(0.2)
+        });
+
+        const stationMesh = new THREE.Mesh(stationGeometry, material);
+        stationMesh.position.set(pos.x - 20, depth - centerY, -pos.z - centerZ); // 中心をオフセット
+        stationMesh.castShadow = true;
+        stationMesh.receiveShadow = true;
+
+        stationMesh.userData = {
+            name: station.station,
+            lines: station.lines,
+            coordinates: station.coordinates
+        };
+
+        scene.add(stationMesh);
+        stations.push(stationMesh);
+        stationMap[station.station] = stationMesh;
+    });
+
+    // 中心座標をログ
+    console.log('Model Center:', { x: centerX.toFixed(2), y: centerY.toFixed(2), z: centerZ.toFixed(2) });
+}
+function createLines() {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+
+    stationData.forEach(station => {
+        const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+        const primaryLine = station.lines[0];
+        const depth = primaryLine.depth !== null ? primaryLine.depth * 0.5 : 0;
+        minX = Math.min(minX, pos.x);
+        maxX = Math.max(maxX, pos.x);
+        minY = Math.min(minY, depth);
+        maxY = Math.max(maxY, depth);
+        minZ = Math.min(minZ, pos.z);
+        maxZ = Math.max(maxZ, pos.z);
+    });
+
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const centerZ = (minZ + maxZ) / 2;
+
+    Object.keys(lineOrders).forEach(lineName => {
+        const stationNames = lineOrders[lineName];
+        const points = [];
+
+        stationNames.forEach(stationName => {
+            const station = stationData.find(s => s.station === stationName);
+            if (station) {
+                const line = station.lines.find(l => l.name === lineName);
+                if (line) {
+                    const pos = latLonToXY(station.coordinates[0], station.coordinates[1]);
+                    const depth = line.depth !== null ? line.depth * 0.5 : 0;
+                    points.push(new THREE.Vector3(pos.x - 20, depth - centerY, -pos.z - centerZ)); // 中心をオフセット
+                }
+            }
+        });
+
+        if (points.length < 2) return;
+
+        const path = new THREE.CatmullRomCurve3(points);
+        const geometry = new THREE.TubeGeometry(path, 64, 0.5, 8, false);
+        const material = new THREE.MeshPhongMaterial({
+            color: lineColors[lineName] || 0xffffff,
+            emissive: new THREE.Color(lineColors[lineName] || 0xffffff).multiplyScalar(0.2)
+        });
+
+        const tube = new THREE.Mesh(geometry, material);
+        tube.castShadow = true;
+        tube.receiveShadow = true;
+        tube.userData = { lineName };
+        scene.add(tube);
+        lines.push(tube);
+    });
+}
+
+function createGround() {
+    const groundGeometry = new THREE.PlaneGeometry(200, 200);
+    const groundMaterial = new THREE.MeshLambertMaterial({
+        color: 0x1a1a2e,
+        transparent: true,
+        opacity: 0.8
+    });
+
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -20; // 地面を下（モデル中心に合わせて調整）
+    ground.receiveShadow = true;
+    scene.add(ground);
+}
+
+        function onStationClick(event) {
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+
+            const intersects = raycaster.intersectObjects(stations);
+
+            if (intersects.length > 0) {
+                const station = intersects[0].object.userData;
+                const linesInfo = station.lines.map(line => 
+                    `${line.name.replace(/^\d+号線/, '')}: ${line.depth !== null ? line.depth + 'm' : '不明'}`
+                ).join('<br>');
+                document.getElementById('station-info').innerHTML = `
+                    <strong>${station.name}</strong><br>
+                    路線と深度:<br>${linesInfo}<br>
+                    座標: ${station.coordinates[1].toFixed(4)}, ${station.coordinates[0].toFixed(4)}
+                `;
+            }
+        }
+
+ function animate() {
+    requestAnimationFrame(animate);
+
+    if (isAnimating) {
+        const time = Date.now() * 0.0005;
+        camera.position.x = Math.cos(time) * 80;
+        camera.position.z = Math.sin(time) * 80;
+        camera.lookAt(0, 0, 0); // モデル中心を注視
+    }
+
+    stations.forEach((station, index) => {
+        const time = Date.now() * 0.003 + index * 0.1;
+        const intensity = 0.2 + Math.sin(time) * 0.1;
+        station.material.emissiveIntensity = intensity;
+    });
+
+    controls.update();
+    renderer.render(scene, camera);
+}
+        function resetView() {
+            camera.position.set(40, 200, -20);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        }
+
+        function toggleAnimation() {
+            isAnimating = !isAnimating;
+        }
+
+        function focusLine(selectedLine) {
+            if (!selectedLine) return;
+
+            stations.forEach(station => {
+                station.material.opacity = 0.3;
+                station.material.transparent = true;
+            });
+
+            stations.forEach(station => {
+                if (station.userData.lines.some(line => line.name.includes(selectedLine))) {
+                    station.material.opacity = 1.0;
+                    station.material.transparent = false;
+                }
+            });
+
+            setTimeout(() => {
+                stations.forEach(station => {
+                    station.material.opacity = 1.0;
+                    station.material.transparent = false;
+                });
+            }, 3000);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init();
+        const closeUiButton = document.getElementById('close-ui');
+    if (closeUiButton) {
+        closeUiButton.addEventListener('click', () => {
+            const uiElement = document.getElementById('ui');
+            if (uiElement) {
+                uiElement.style.display = 'none'; // または 'visibility: hidden;'
+            }
+        });
+    }
+    </script>
+</body>
+</html>

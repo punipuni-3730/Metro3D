@@ -1,0 +1,833 @@
+[
+  {
+    "station": "仲御徒町",
+    "lines": [{ "name": "2号線日比谷線", "depth": -8.6 }],
+    "coordinates": [139.77626, 35.7074]
+  },
+  {
+    "station": "入谷",
+    "lines": [{ "name": "2号線日比谷線", "depth": -8.2 }],
+    "coordinates": [139.78504, 35.72131]
+  },
+  {
+    "station": "南千住",
+    "lines": [{ "name": "2号線日比谷線", "depth": 9 }],
+    "coordinates": [139.79924, 35.73288]
+  },
+  {
+    "station": "上野",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": -12.7 },
+      { "name": "3号線銀座線", "depth": -10.1 }
+    ],
+    "coordinates": [139.77764, 35.71199]
+  },
+  {
+    "station": "三ノ輪",
+    "lines": [{ "name": "2号線日比谷線", "depth": -9.8 }],
+    "coordinates": [139.79182, 35.7299]
+  },
+  {
+    "station": "秋葉原",
+    "lines": [{ "name": "2号線日比谷線", "depth": -11.4 }],
+    "coordinates": [139.7755, 35.69719]
+  },
+  {
+    "station": "北千住",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": 15.4 },
+      { "name": "9号線千代田線", "depth": -11.3 }
+    ],
+    "coordinates": [139.80518, 35.74855]
+  },
+  {
+    "station": "神谷町",
+    "lines": [{ "name": "2号線日比谷線", "depth": -10.3 }],
+    "coordinates": [139.74419, 35.66206]
+  },
+  {
+    "station": "銀座",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": -14.8 },
+      { "name": "3号線銀座線", "depth": -9.3 },
+      { "name": "4号線丸ノ内線", "depth": -10.3 }
+    ],
+    "coordinates": [139.76464, 35.67155]
+  },
+  {
+    "station": "広尾",
+    "lines": [{ "name": "2号線日比谷線", "depth": -9 }],
+    "coordinates": [139.72226, 35.6506]
+  },
+  {
+    "station": "東銀座",
+    "lines": [{ "name": "2号線日比谷線", "depth": -14.3 }],
+    "coordinates": [139.76691, 35.66977]
+  },
+  {
+    "station": "霞ケ関",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": -15.4 },
+      { "name": "4号線丸ノ内線", "depth": -11.3 },
+      { "name": "9号線千代田線", "depth": -8.2 }
+    ],
+    "coordinates": [139.75144, 35.67452]
+  },
+  {
+    "station": "人形町",
+    "lines": [{ "name": "2号線日比谷線", "depth": -9.4 }],
+    "coordinates": [139.78179, 35.6869]
+  },
+  {
+    "station": "茅場町",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": -7.5 },
+      { "name": "5号線東西線", "depth": -11.4 }
+    ],
+    "coordinates": [139.78005, 35.67976]
+  },
+  {
+    "station": "六本木",
+    "lines": [{ "name": "2号線日比谷線", "depth": -10.8 }],
+    "coordinates": [139.73025, 35.66235]
+  },
+  {
+    "station": "小伝馬町",
+    "lines": [{ "name": "2号線日比谷線", "depth": -8.7 }],
+    "coordinates": [139.77817, 35.69112]
+  },
+  {
+    "station": "八丁堀",
+    "lines": [{ "name": "2号線日比谷線", "depth": -11.2 }],
+    "coordinates": [139.77775, 35.67606]
+  },
+  {
+    "station": "築地",
+    "lines": [{ "name": "2号線日比谷線", "depth": -9.2 }],
+    "coordinates": [139.77326, 35.66854]
+  },
+  {
+    "station": "日比谷",
+    "lines": [
+      { "name": "2号線日比谷線", "depth": -17.8 },
+      { "name": "9号線千代田線", "depth": -14.4 }
+    ],
+    "coordinates": [139.75989, 35.67476]
+  },
+  {
+    "station": "恵比寿",
+    "lines": [{ "name": "2号線日比谷線", "depth": -10.2 }],
+    "coordinates": [139.70808, 35.64646]
+  },
+  {
+    "station": "中目黒",
+    "lines": [{ "name": "2号線日比谷線", "depth": 6.2 }],
+    "coordinates": [139.69815, 35.64352]
+  },
+  {
+    "station": "浅草",
+    "lines": [{ "name": "3号線銀座線", "depth": -8.8 }],
+    "coordinates": [139.79803, 35.71107]
+  },
+  {
+    "station": "末広町",
+    "lines": [{ "name": "3号線銀座線", "depth": -7.4 }],
+    "coordinates": [139.77181, 35.70319]
+  },
+  {
+    "station": "稲荷町",
+    "lines": [{ "name": "3号線銀座線", "depth": -6.8 }],
+    "coordinates": [139.78291, 35.71126]
+  },
+  {
+    "station": "田原町",
+    "lines": [{ "name": "3号線銀座線", "depth": -7.7 }],
+    "coordinates": [139.79081, 35.70981]
+  },
+  {
+    "station": "上野広小路",
+    "lines": [{ "name": "3号線銀座線", "depth": -8 }],
+    "coordinates": [139.77315, 35.70838]
+  },
+  {
+    "station": "虎ノ門",
+    "lines": [{ "name": "3号線銀座線", "depth": -8.5 }],
+    "coordinates": [139.75056, 35.67]
+  },
+  {
+    "station": "外苑前",
+    "lines": [{ "name": "3号線銀座線", "depth": -9.5 }],
+    "coordinates": [139.71725, 35.67016]
+  },
+  {
+    "station": "日本橋",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -10.5 },
+      { "name": "5号線東西線", "depth": -15.3 }
+    ],
+    "coordinates": [139.77313, 35.68156]
+  },
+  {
+    "station": "溜池山王",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -9.4 },
+      { "name": "7号線南北線", "depth": -16.2 }
+    ],
+    "coordinates": [139.74139, 35.67187]
+  },
+  {
+   "station": "青山一丁目",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -7.7 },
+      { "name": "11号線半蔵門線", "depth": -14.6 }
+    ],
+    "coordinates": [139.72318, 35.67247]
+  },
+  {
+    "station": "京橋",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -10.3 },
+      { "name": "4号線丸ノ内線", "depth": -10.3 }
+    ],
+    "coordinates": [139.7698, 35.67619]
+  },
+  {
+    "station": "新橋",
+    "lines": [{ "name": "3号線銀座線", "depth": -10 }],
+    "coordinates": [139.75935, 35.66709]
+  },
+  {
+    "station": "神田",
+    "lines": [{ "name": "3号線銀座線", "depth": -8 }],
+    "coordinates": [139.77107, 35.69329]
+  },
+  {
+    "station": "赤坂見附",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -6.9 },
+      { "name": "4号線丸ノ内線", "depth": -6.7 }
+    ],
+    "coordinates": [139.73773, 35.67621]
+  },
+  {
+    "station": "三越前",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -9.8 },
+      { "name": "11号線半蔵門線", "depth": -27.8 }
+    ],
+    "coordinates": [139.77378, 35.68671]
+  },
+  {
+    "station": "表参道",
+    "lines": [
+      { "name": "3号線銀座線", "depth": -8.1 },
+      { "name": "9号線千代田線", "depth": -18.8 },
+      { "name": "11号線半蔵門線", "depth": -8.5 }
+    ],
+    "coordinates": [139.7118, 35.66431]
+  },
+  {
+    "station": "渋谷",
+    "lines": [
+      { "name": "3号線銀座線", "depth": 12.1 },
+      { "name": "11号線半蔵門線", "depth": -14.9 },
+      { "name": "13号線副都心線", "depth": -29 }
+    ],
+    "coordinates": [139.701968, 35.658869]
+  },
+  {
+    "station": "後楽園",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -3.5 },
+      { "name": "7号線南北線", "depth": -37.5 }
+    ],
+    "coordinates": [139.75164, 35.70734]
+  },
+  {
+    "station": "御茶ノ水",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.6 }],
+    "coordinates": [139.76355, 35.70069]
+  },
+  {
+    "station": "本郷三丁目",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -6.3 }],
+    "coordinates": [139.7595, 35.70728]
+  },
+  {
+    "station": "新高円寺",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.7 }],
+    "coordinates": [139.64926, 35.69788]
+  },
+  {
+    "station": "南阿佐ヶ谷",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.7 }],
+    "coordinates": [139.63624, 35.69918]
+  },
+  {
+    "station": "荻窪",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -10.7 }],
+    "coordinates": [139.62077, 35.70419]
+  },
+  {
+    "station": "茗荷谷",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -5.9 }],
+    "coordinates": [139.73649, 35.71758]
+  },
+  {
+    "station": "新中野",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.3 }],
+    "coordinates": [139.67029, 35.6975]
+  },
+  {
+    "station": "東高円寺",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -6.4 }],
+    "coordinates": [139.659, 35.69787]
+  },
+  {
+    "station": "池袋",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -8.7 },
+      { "name": "8号線有楽町線", "depth": -12.2 },
+      { "name": "13号線副都心線", "depth": -25 }
+    ],
+    "coordinates": [139.71034, 35.73061]
+  },
+  {
+    "station": "新大塚",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -6.8 }],
+    "coordinates": [139.7288, 35.72652]
+  },
+  {
+    "station": "中野坂上",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -9.8 },
+      { "name": "4号線丸ノ内線分岐線", "depth": -9.8 }
+    ],
+    "coordinates": [139.68284, 35.69701]
+  },
+  {
+    "station": "東京",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -10.3 }],
+    "coordinates": [139.768, 35.68273]
+  },
+  {
+    "station": "国会議事堂前",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -11.2 },
+      { "name": "9号線千代田線", "depth": -37.9 }
+    ],
+    "coordinates": [139.74455, 35.67429]
+  },
+  {
+    "station": "淡路町",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -8.1 }],
+    "coordinates": [139.76746, 35.69535]
+  },
+  {
+    "station": "四谷三丁目",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.5 }],
+    "coordinates": [139.72037, 35.68793]
+  },
+  {
+    "station": "四ツ谷",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -5.5 },
+      { "name": "7号線南北線", "depth": -21.2 }
+    ],
+    "coordinates": [139.73009, 35.68326]
+  },
+  {
+    "station": "大手町",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -10.2 },
+      { "name": "5号線東西線", "depth": -19.1 },
+      { "name": "9号線千代田線", "depth": -14.1 },
+      { "name": "11号線半蔵門線", "depth": -27.1 }
+    ],
+    "coordinates": [139.76633, 35.68736]
+  },
+  {
+    "station": "西新宿",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -10 }],
+    "coordinates": [139.6932, 35.69428]
+  },
+  {
+    "station": "新宿三丁目",
+    "lines": [
+      { "name": "4号線丸ノ内線", "depth": -11 },
+      { "name": "13号線副都心線", "depth": -15 }
+    ],
+    "coordinates": [139.70489, 35.69087]
+  },
+  {
+    "station": "新宿御苑前",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -7.6 }],
+    "coordinates": [139.71185, 35.68834]
+  },
+  {
+    "station": "新宿",
+    "lines": [{ "name": "4号線丸ノ内線", "depth": -11.2 }],
+    "coordinates": [139.7013, 35.69235]
+  },
+  {
+    "station": "中野新橋",
+    "lines": [{ "name": "4号線丸ノ内線分岐線", "depth": -8.2 }],
+    "coordinates": [139.67448, 35.69207]
+  },
+  {
+    "station": "方南町",
+    "lines": [{ "name": "4号線丸ノ内線分岐線", "depth": -10.3 }],
+    "coordinates": [139.65867, 35.68367]
+  },
+  {
+    "station": "中野富士見町",
+    "lines": [{ "name": "4号線丸ノ内線分岐線", "depth": -7 }],
+    "coordinates": [139.6689, 35.69089]
+  },
+  {
+    "station": "原木中山",
+    "lines": [{ "name": "5号線東西線", "depth": 6.7 }],
+    "coordinates": [139.94123, 35.70264]
+  },
+  {
+    "station": "妙典",
+    "lines": [{ "name": "5号線東西線", "depth": 7.4 }],
+    "coordinates": [139.92343, 35.69029]
+  },
+  {
+    "station": "飯田橋",
+    "lines": [
+      { "name": "5号線東西線", "depth": -11.4 },
+      { "name": "7号線南北線", "depth": -20.3 },
+      { "name": "8号線有楽町線", "depth": -19.1 }
+    ],
+    "coordinates": [139.74579, 35.70182]
+  },
+  {
+    "station": "中野",
+    "lines": [{ "name": "5号線東西線", "depth": 0.7 }],
+    "coordinates": [139.66688, 35.70579]
+  },
+  {
+    "station": "落合",
+    "lines": [{ "name": "5号線東西線", "depth": -12.6 }],
+    "coordinates": [139.68706, 35.7109]
+  },
+  {
+    "station": "神楽坂",
+    "lines": [{ "name": "5号線東西線", "depth": -17.5 }],
+    "coordinates": [139.73566, 35.70367]
+  },
+  {
+    "station": "高田馬場",
+    "lines": [{ "name": "5号線東西線", "depth": -12.9 }],
+    "coordinates": [139.70603, 35.7128]
+  },
+  {
+    "station": "早稲田",
+    "lines": [{ "name": "5号線東西線", "depth": -10.8 }],
+    "coordinates": [139.72333, 35.70558]
+  },
+  {
+    "station": "門前仲町",
+    "lines": [{ "name": "5号線東西線", "depth": -10.9 }],
+    "coordinates": [139.7971, 35.67146]
+  },
+  {
+    "station": "木場",
+    "lines": [{ "name": "5号線東西線", "depth": -22.4 }],
+    "coordinates": [139.80591, 35.66938]
+  },
+  {
+    "station": "浦安",
+    "lines": [{ "name": "5号線東西線", "depth": 8.6 }],
+    "coordinates": [139.89427, 35.66642]
+  },
+  {
+    "station": "九段下",
+    "lines": [
+      { "name": "5号線東西線", "depth": -11.1 },
+      { "name": "11号線半蔵門線", "depth": -21.9 }
+    ],
+    "coordinates": [139.75101, 35.69698]
+  },
+  {
+    "station": "竹橋",
+    "lines": [{ "name": "5号線東西線", "depth": -18.4 }],
+    "coordinates": [139.75852, 35.69028]
+  },
+  {
+    "station": "葛西",
+    "lines": [{ "name": "5号線東西線", "depth": 9 }],
+    "coordinates": [139.87396, 35.66354]
+  },
+  {
+    "station": "南砂町",
+    "lines": [{ "name": "5号線東西線", "depth": -6.2 }],
+    "coordinates": [139.83048, 35.66881]
+  },
+  {
+    "station": "行徳",
+    "lines": [{ "name": "5号線東西線", "depth": 7.4 }],
+    "coordinates": [139.91336, 35.68194]
+  },
+  {
+    "station": "南行徳",
+    "lines": [{ "name": "5号線東西線", "depth": 7.7 }],
+    "coordinates": [139.90306, 35.67339]
+  },
+  {
+    "station": "西葛西",
+    "lines": [{ "name": "5号線東西線", "depth": 10 }],
+    "coordinates": [139.85786, 35.66471]
+  },
+  {
+    "station": "東陽町",
+    "lines": [{ "name": "5号線東西線", "depth": -10.9 }],
+    "coordinates": [139.81892, 35.66966]
+  },
+  {
+    "station": "西船橋",
+    "lines": [{ "name": "5号線東西線", "depth": 0.9 }],
+    "coordinates": [139.95979, 35.70671]
+  },
+  {
+    "station": "本駒込",
+    "lines": [{ "name": "7号線南北線", "depth": -19.4 }],
+    "coordinates": [139.75366, 35.72517]
+  },
+  {
+    "station": "西ヶ原",
+    "lines": [{ "name": "7号線南北線", "depth": -14.1 }],
+    "coordinates": [139.74263, 35.74557]
+  },
+  {
+    "station": "駒込",
+    "lines": [{ "name": "7号線南北線", "depth": -16.9 }],
+    "coordinates": [139.7466, 35.73648]
+  },
+  {
+    "station": "東大前",
+    "lines": [{ "name": "7号線南北線", "depth": -21.9 }],
+    "coordinates": [139.7574, 35.71893]
+  },
+  {
+    "station": "王子",
+    "lines": [{ "name": "7号線南北線", "depth": -17.5 }],
+    "coordinates": [139.73779, 35.75355]
+  },
+  {
+    "station": "志茂",
+    "lines": [{ "name": "7号線南北線", "depth": -16.4 }],
+    "coordinates": [139.73303, 35.77728]
+  },
+  {
+    "station": "王子神谷",
+    "lines": [{ "name": "7号線南北線", "depth": -20.2 }],
+    "coordinates": [139.73597, 35.76418]
+  },
+  {
+    "station": "赤羽岩淵",
+    "lines": [{ "name": "7号線南北線", "depth": -18 }],
+    "coordinates": [139.72346, 35.7831]
+  },
+  {
+    "station": "永田町",
+    "lines": [
+      { "name": "7号線南北線", "depth": -26.7 },
+      { "name": "8号線有楽町線", "depth": -23.7 },
+      { "name": "11号線半蔵門線", "depth": -36 }
+    ],
+    "coordinates": [139.73822, 35.67878]
+  },
+  {
+    "station": "麻布十番",
+    "lines": [{ "name": "7号線南北線", "depth": -24.3 }],
+    "coordinates": [139.73715, 35.65554]
+  },
+  {
+    "station": "市ケ谷",
+    "lines": [
+      { "name": "7号線南北線", "depth": -20.5 },
+      { "name": "8号線有楽町線", "depth": -8.9 }
+    ],
+    "coordinates": [139.73766, 35.69417]
+  },
+  {
+    "station": "六本木一丁目",
+    "lines": [{ "name": "7号線南北線", "depth": -22.3 }],
+    "coordinates": [139.73902, 35.66579]
+  },
+  {
+    "station": "白金高輪",
+    "lines": [{ "name": "7号線南北線", "depth": -29.8 }],
+    "coordinates": [139.73469, 35.64385]
+  },
+  {
+    "station": "白金台",
+    "lines": [{ "name": "7号線南北線", "depth": -28.3 }],
+    "coordinates": [139.72671, 35.63814]
+  },
+  {
+    "station": "目黒",
+    "lines": [{ "name": "7号線南北線", "depth": -19.8 }],
+    "coordinates": [139.71542, 35.6332]
+  },
+  {
+    "station": "千川",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -12.3 },
+      { "name": "13号線副都心線", "depth": -19 }
+    ],
+    "coordinates": [139.68851, 35.73884]
+  },
+  {
+    "station": "地下鉄成増",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -16.1 },
+      { "name": "13号線副都心線", "depth": -16.1 }
+    ],
+    "coordinates": [139.63258, 35.776]
+  },
+  {
+    "station": "東池袋",
+    "lines": [{ "name": "8号線有楽町線", "depth": -13.8 }],
+    "coordinates": [139.71787, 35.72659]
+  },
+  {
+    "station": "江戸川橋",
+    "lines": [{ "name": "8号線有楽町線", "depth": -16 }],
+    "coordinates": [139.73315, 35.70964]
+  },
+  {
+    "station": "平和台",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -17.7 },
+      { "name": "13号線副都心線", "depth": -17.7 }
+    ],
+    "coordinates": [139.65526, 35.75697]
+  },
+  {
+    "station": "小竹向原",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -17.3 },
+      { "name": "13号線副都心線", "depth": -17.3 }
+    ],
+    "coordinates": [139.6785, 35.74388]
+  },
+  {
+    "station": "氷川台",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -17.7 },
+      { "name": "13号線副都心線", "depth": -17.7 }
+    ],
+    "coordinates": [139.6645, 35.75005]
+  },
+  {
+    "station": "護国寺",
+    "lines": [{ "name": "8号線有楽町線", "depth": -16.7 }],
+    "coordinates": [139.72705, 35.72003]
+  },
+  {
+    "station": "要町",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -16.1 },
+      { "name": "13号線副都心線", "depth": -22 }
+    ],
+    "coordinates": [139.69736, 35.73342]
+  },
+  {
+    "station": "地下鉄赤塚",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": -15.2 },
+      { "name": "13号線副都心線", "depth": -15.2 }
+    ],
+    "coordinates": [139.64552, 35.76909]
+  },
+  {
+    "station": "和光市",
+    "lines": [
+      { "name": "8号線有楽町線", "depth": 1.7 },
+      { "name": "13号線副都心線", "depth": 1.7 }
+    ],
+    "coordinates": [139.61182, 35.78877]
+  },
+  {
+    "station": "新富町",
+    "lines": [{ "name": "8号線有楽町線", "depth": -21 }],
+    "coordinates": [139.77451, 35.67016]
+  },
+  {
+    "station": "麹町",
+    "lines": [{ "name": "8号線有楽町線", "depth": -10.5 }],
+    "coordinates": [139.73699, 35.6856]
+  },
+  {
+    "station": "豊洲",
+    "lines": [{ "name": "8号線有楽町線", "depth": -19 }],
+    "coordinates": [139.79672, 35.65438]
+  },
+  {
+    "station": "有楽町",
+    "lines": [{ "name": "8号線有楽町線", "depth": -19.4 }],
+    "coordinates": [139.76108, 35.67623]
+  },
+  {
+    "station": "月島",
+    "lines": [{ "name": "8号線有楽町線", "depth": -22.5 }],
+    "coordinates": [139.78386, 35.66522]
+  },
+  {
+    "station": "桜田門",
+    "lines": [{ "name": "8号線有楽町線", "depth": -17.1 }],
+    "coordinates": [139.75296, 35.67772]
+  },
+  {
+    "station": "銀座一丁目",
+    "lines": [{ "name": "8号線有楽町線", "depth": -17.7 }],
+    "coordinates": [139.76591, 35.67508]
+  },
+  {
+    "station": "辰巳",
+    "lines": [{ "name": "8号線有楽町線", "depth": -21.9 }],
+    "coordinates": [139.81103, 35.64531]
+  },
+  {
+    "station": "新木場",
+    "lines": [{ "name": "8号線有楽町線", "depth": 7.8 }],
+    "coordinates": [139.82535, 35.64564]
+  },
+  {
+    "station": "西日暮里",
+    "lines": [{ "name": "9号線千代田線", "depth": -9.4 }],
+    "coordinates": [139.76785, 35.73281]
+  },
+  {
+    "station": "千駄木",
+    "lines": [{ "name": "9号線千代田線", "depth": -9.6 }],
+    "coordinates": [139.76356, 35.7266]
+  },
+  {
+    "station": "新御茶ノ水",
+    "lines": [{ "name": "9号線千代田線", "depth": -24.3 }],
+    "coordinates": [139.76576, 35.69759]
+  },
+  {
+    "station": "北綾瀬",
+    "lines": [{ "name": "9号線千代田線", "depth": 7 }],
+    "coordinates": [139.83211, 35.77725]
+  },
+  {
+    "station": "町屋",
+    "lines": [{ "name": "9号線千代田線", "depth": -10.4 }],
+    "coordinates": [139.77946, 35.74118]
+  },
+  {
+    "station": "湯島",
+    "lines": [{ "name": "9号線千代田線", "depth": -12.4 }],
+    "coordinates": [139.77002, 35.70779]
+  },
+  {
+    "station": "根津",
+    "lines": [{ "name": "9号線千代田線", "depth": -10 }],
+    "coordinates": [139.76517, 35.7179]
+  },
+  {
+    "station": "綾瀬",
+    "lines": [{ "name": "9号線千代田線", "depth": 7.1 }],
+    "coordinates": [139.82614, 35.76241]
+  },
+  {
+    "station": "二重橋前",
+    "lines": [{ "name": "9号線千代田線", "depth": -15.3 }],
+    "coordinates": [139.7621, 35.68145]
+  },
+  {
+    "station": "乃木坂",
+    "lines": [{ "name": "9号線千代田線", "depth": -19.3 }],
+    "coordinates": [139.72701, 35.6673]
+  },
+  {
+    "station": "赤坂",
+    "lines": [{ "name": "9号線千代田線", "depth": -15 }],
+    "coordinates": [139.73711, 35.67267]
+  },
+  {
+    "station": "代々木公園",
+    "lines": [{ "name": "9号線千代田線", "depth": -11.1 }],
+    "coordinates": [139.68868, 35.66926]
+  },
+  {
+    "station": "代々木上原",
+    "lines": [{ "name": "9号線千代田線", "depth": 8.6 }],
+    "coordinates": [139.67877, 35.66849]
+  },
+  {
+    "station": "明治神宮前",
+    "lines": [
+      { "name": "9号線千代田線", "depth": -17.4 },
+      { "name": "13号線副都心線", "depth": -28 }
+    ],
+    "coordinates": [139.70307, 35.66949]
+  },
+  {
+    "station": "押上",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -21.6 }],
+    "coordinates": [139.81415, 35.70668]
+  },
+  {
+    "station": "錦糸町",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -21.8 }],
+    "coordinates": [139.81487, 35.69861]
+  },
+  {
+    "station": "神保町",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -22.1 }],
+    "coordinates": [139.75691, 35.696]
+  },
+  {
+    "station": "水天宮前",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -22 }],
+    "coordinates": [139.78576, 35.68231]
+  },
+  {
+    "station": "住吉",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -32.6 }],
+    "coordinates": [139.81576, 35.6879]
+  },
+  {
+    "station": "半蔵門",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -18.3 }],
+    "coordinates": [139.74158, 35.68445]
+  },
+  {
+    "station": "清澄白河",
+    "lines": [{ "name": "11号線半蔵門線", "depth": -21.5 }],
+    "coordinates": [139.80141, 35.6822]
+  },
+  {
+    "station": "東新宿",
+    "lines": [{ "name": "13号線副都心線", "depth": -29 }],
+    "coordinates": [139.70823, 35.70187]
+  },
+  {
+    "station": "北参道",
+    "lines": [{ "name": "13号線副都心線", "depth": -16 }],
+    "coordinates": [139.70473, 35.67947]
+  },
+  {
+    "station": "西早稲田",
+    "lines": [{ "name": "13号線副都心線", "depth": -30 }],
+    "coordinates": [139.70933, 35.70892]
+  },
+  {
+    "station": "雑司が谷",
+    "lines": [{ "name": "13号線副都心線", "depth": -34 }],
+    "coordinates": [139.71558, 35.72139]
+  },
+  {
+    "station": "虎ノ門ヒルズ",
+    "lines": [{ "name": "2号線日比谷線", "depth": -8 }],
+    "coordinates": [139.748, 35.66785]
+  }
+]
